@@ -1,5 +1,5 @@
 # Andrea Keiper and Alex Weinstein
 # DS4420: Machine Learning 2
 
-## Final Project: **TITLE HERE**
-### **DESCRIPTION HERE**
+## Final Project: Traffic Crash Patterns and Injury Severity Analysis in Boston: Time Series and Bayesian Modeling
+### In this project, we examine crash data from Boston to explore both the timing of crashes and how certain conditions increase the severity of crashes. Because our data is time stamped, we can use time series analysis to see how crash rates fluctuate over time, identifying trends like seasonal patterns and spikes in crash frequency. The dataset also contains information about roadway and environmental conditions that increase the severity of crashes, such as type of vehicle, road surface condition, ambient light, weather condition, and whether they occurred at intersections or not, which allows us to apply a Bayesian modeling approach to estimate how different factors influence the probability of severe injuries in a crash. By combining these two approaches, we aim to gain an understanding of when crashes happen, as well as what conditions make these crashes more dangerous.
