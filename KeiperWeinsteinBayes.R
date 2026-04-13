@@ -2,9 +2,11 @@
 ## DS4420 Final Project
 ## April 16, 2026
 
-## MODEL 2: BAYESION ML
+## MODEL 2: BAYESIAN ML
 library(data.table)
 library(stringr)
+library(brms)
+library(ggplot2)
 
 ## Read data(Wasn't loading with regular read.csv, so using (data.table))
 df <- fread("Boston_CrashDetails.csv", skip = 2)
@@ -86,15 +88,163 @@ df$At_Intersection <- ifelse(df$At_Roadway_Intersection != "", 1, 0)
 table(df$At_Intersection)
 
 # 3. Clean weather
-# Simplify: strip multi-condition combos (e.g. "Clear/Rain" -> "Clear")
+# Clean raw weather first
+df$Weather_Clean <- ifelse(
+  is.na(df$Weather_Condition) |
+    df$Weather_Condition %in% c("", "Not Reported", "Unknown"),
+  NA_character_,
+  df$Weather_Condition
+)
 
+# Take first condition(before "/")
+df$Weather_Simple <- ifelse(
+  is.na(df$Weather_Clean),
+  NA_character_,
+  trimws(sapply(strsplit(df$Weather_Clean, "/"), `[`, 1))
+)
 
+# Keep only top 5 weather categories
+top_weather <- names(sort(table(df$Weather_Simple), decreasing = TRUE))[1:5]
+df <- df[df$Weather_Simple %in% top_weather, ]
 
+sort(table(df$Weather_Simple), decreasing = TRUE)
 
+## Bayesian Modeling
 
+df <- df[!df$Crash_Severity %in% c("Not Reported", "Unknown"), ]
+df <- df[trimws(df$Crash_Severity) != "", ]
 
+df$Crash_Severity <- factor(df$Crash_Severity)
 
-## Figure out the distribution 
+table(df$Crash_Severity)
 
+model_df <- df[, c("Crash_Severity", "Largest_Vehicle", "Weather_Simple",
+                   "At_Intersection", "Ambient_Light", "Road_Surface_Condition")]
 
-## use brm and sampling to complete the model, categorical predicting the severity? 
+# drop rows with missing predictors
+model_df <- model_df[complete.cases(model_df), ]
+
+# convert to factors for categorical modeling
+model_df$Crash_Severity <- droplevels(as.factor(model_df$Crash_Severity))
+model_df$Largest_Vehicle <- as.factor(model_df$Largest_Vehicle)
+model_df$Weather_Simple <- as.factor(model_df$Weather_Simple)
+model_df$At_Intersection <- as.factor(model_df$At_Intersection)
+model_df$Ambient_Light <- as.factor(model_df$Ambient_Light)
+model_df$Road_Surface_Condition <- as.factor(model_df$Road_Surface_Condition)
+
+set.seed(1)
+
+# split by class
+fatal_df <- model_df[model_df$Crash_Severity == "Fatal injury", ]
+nonfatal_df <- model_df[model_df$Crash_Severity == "Non-fatal injury", ]
+pdo_df <- model_df[model_df$Crash_Severity == "Property damage only (none injured)", ]
+
+# downsample to smallest class (fatal) to balance classes
+# avoids class dominance but discards data
+n_bal <- nrow(fatal_df)
+
+fatal_sample <- fatal_df[sample(nrow(fatal_df), n_bal), ]
+nonfatal_sample <- nonfatal_df[sample(nrow(nonfatal_df), n_bal), ]
+pdo_sample <- pdo_df[sample(nrow(pdo_df), n_bal), ]
+
+balanced_df <- rbind(fatal_sample, nonfatal_sample, pdo_sample)
+balanced_df <- balanced_df[sample(nrow(balanced_df)), ]
+
+balanced_df$Crash_Severity <- droplevels(factor(balanced_df$Crash_Severity))
+
+# inspect default priors
+default_prior(
+  Crash_Severity ~ Largest_Vehicle + Weather_Simple + At_Intersection + Ambient_Light + Road_Surface_Condition,
+  data = balanced_df,
+  family = categorical()
+)
+
+# fit simplified model (fewer predictors = better sampling stability)
+# less complexity, but more reliable inference
+model <- brm(
+  Crash_Severity ~ Largest_Vehicle + Weather_Simple + At_Intersection,
+  data = balanced_df,
+  family = categorical(),
+  chains = 4,
+  cores = 4,
+  iter = 3000,
+  warmup = 1500,
+  control = list(adapt_delta = 0.99, max_treedepth = 15)
+)
+
+summary(model)
+plot(model)
+
+# simulated class predictions from posterior (Bayesian equivalent of predictions)
+post_preds <- posterior_predict(model)
+head(post_preds[,1:10])
+
+# posterior class probabilities across all draws
+post_probs <- posterior_epred(model)
+dim(post_probs)
+
+# average probabilities per class for each observation
+mean_probs <- apply(post_probs, c(2,3), mean)
+head(mean_probs)
+
+# final predicted class (highest probability)
+pred_class <- colnames(mean_probs)[max.col(mean_probs)]
+head(pred_class)
+
+actual <- balanced_df$Crash_Severity
+
+# Model achieved ~43.6% accuracy on a balanced 3-class problem.
+# Baseline (random guessing) is ~33%, so this is meaningfully better.
+# This is acceptable as a baseline for comparison with the MLP.
+accuracy <- mean(pred_class == actual)
+accuracy
+
+# confusion matrix
+conf_mat <- as.data.frame(table(Predicted = pred_class, Actual = actual))
+
+p <- ggplot(conf_mat, aes(x = Actual, y = Predicted, fill = Freq)) +
+  geom_tile() +
+  geom_text(aes(label = Freq), color = "white", size = 5) +
+  scale_fill_gradient(low = "lightblue", high = "blue") +
+  labs(title = "Confusion Matrix (Bayesian Model)") +
+  theme_minimal()
+
+p
+
+ggsave("bayesian_confusion_matrix.png", plot = p, width = 6, height = 5)
+
+# effect of vehicle type on crash severity probabilities
+ce_vehicle <- conditional_effects(model, "Largest_Vehicle", categorical = TRUE)
+p_vehicle <- plot(ce_vehicle, plot = FALSE)[[1]]
+
+p_vehicle
+
+ggsave("bayesian_conditional_effects_vehicle.png", plot = p_vehicle, width = 8, height = 6)
+
+# effect of intersections on severity
+ce_intersection <- conditional_effects(model, "At_Intersection", categorical = TRUE)
+p_intersection <- plot(ce_intersection, plot = FALSE)[[1]]
+
+p_intersection
+
+ggsave("bayesian_conditional_effects_intersection.png", plot = p_intersection, width = 8, height = 6)
+
+ce_weather <- conditional_effects(model, "Weather_Simple", categorical = TRUE)
+p_weather <- plot(ce_weather, plot = FALSE)[[1]]
+
+# effect of weather (weaker than other variables)
+p_weather
+
+ggsave("bayesian_conditional_effects_weather.png", plot = p_weather, width = 8, height = 6)
+
+# example of a predicted probability distribution for one crash
+mean_probs[1, ]
+
+# Bayesian model outputs:
+# Accuracy ~43.6% (above 33% baseline for 3 classes)
+# Confusion matrix shows moderate performance, especially weaker on fatal cases
+# Conditional effects plots show:
+#   -Vehicle type has strongest impact (motorcycles are more severe)
+#   -Intersections increase severity risk
+#   -Weather effects are weaker / less consistent
+# These plots provide interpretable insights compared to the MLP model
