@@ -7,6 +7,7 @@ library(data.table)
 library(stringr)
 library(brms)
 library(ggplot2)
+library(patchwork)
 
 ## Read data(Wasn't loading with regular read.csv, so using (data.table))
 df <- fread("Boston_CrashDetails.csv", skip = 2)
@@ -206,8 +207,24 @@ p <- ggplot(conf_mat, aes(x = Actual, y = Predicted, fill = Freq)) +
   geom_tile() +
   geom_text(aes(label = Freq), color = "white", size = 5) +
   scale_fill_gradient(low = "lightblue", high = "blue") +
-  labs(title = "Confusion Matrix (Bayesian Model)") +
-  theme_minimal()
+  scale_x_discrete(labels = c(
+    "Fatal injury" = "Fatal",
+    "Non-fatal injury" = "Non-Fatal",
+    "Property damage only (none injured)" = "Property Damage"
+  )) +
+  scale_y_discrete(labels = c(
+    "Fatal injury" = "Fatal",
+    "Non-fatal injury" = "Non-Fatal",
+    "Property damage only (none injured)" = "Property Damage"
+  )) +
+  labs(title = "Confusion Matrix (Bayesian Model)",
+       x = "Actual",
+       y = "Predicted") +
+  theme_minimal() +
+  theme(
+    axis.text.x = element_text(angle = 0, hjust = 0.5),
+    plot.title = element_text(hjust = 0.5)
+  )
 
 p
 
@@ -215,27 +232,51 @@ ggsave("bayesian_confusion_matrix.png", plot = p, width = 6, height = 5)
 
 # effect of vehicle type on crash severity probabilities
 ce_vehicle <- conditional_effects(model, "Largest_Vehicle", categorical = TRUE)
-p_vehicle <- plot(ce_vehicle, plot = FALSE)[[1]]
-
-p_vehicle
-
-ggsave("bayesian_conditional_effects_vehicle.png", plot = p_vehicle, width = 8, height = 6)
+p_vehicle <- plot(ce_vehicle, plot = FALSE)[[1]] +
+  labs(title = "Vehicle Type") +
+  theme(
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 30, hjust = 1)
+  )
 
 # effect of intersections on severity
 ce_intersection <- conditional_effects(model, "At_Intersection", categorical = TRUE)
-p_intersection <- plot(ce_intersection, plot = FALSE)[[1]]
+p_intersection <- plot(ce_intersection, plot = FALSE)[[1]] +
+  labs(title = "Intersection") +
+  theme(
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 0, hjust = 0.5)
+  )
 
-p_intersection
-
-ggsave("bayesian_conditional_effects_intersection.png", plot = p_intersection, width = 8, height = 6)
-
+# effect of weather
 ce_weather <- conditional_effects(model, "Weather_Simple", categorical = TRUE)
-p_weather <- plot(ce_weather, plot = FALSE)[[1]]
+p_weather <- plot(ce_weather, plot = FALSE)[[1]] +
+  labs(title = "Weather") +
+  scale_x_discrete(labels = c(
+    "Clear" = "Clear",
+    "Cloudy" = "Cloudy",
+    "Rain" = "Rain",
+    "Sleet, hail (freezing rain or drizzle)" = "Sleet/Hail",
+    "Snow" = "Snow"
+  )) +
+  theme(
+    legend.position = "bottom",
+    axis.text.x = element_text(angle = 30, hjust = 1)
+  )
 
-# effect of weather (weaker than other variables)
-p_weather
+# combine with one shared legend
+p_combined <- (p_weather | p_intersection) / p_vehicle +
+  plot_layout(guides = "collect") &
+  theme(legend.position = "bottom")
 
-ggsave("bayesian_conditional_effects_weather.png", plot = p_weather, width = 8, height = 6)
+p_combined
+
+ggsave(
+  "bayesian_conditional_effects_combined.png",
+  plot = p_combined,
+  width = 18,
+  height = 10
+)
 
 # example of a predicted probability distribution for one crash
 mean_probs[1, ]
@@ -248,3 +289,8 @@ mean_probs[1, ]
 #   -Intersections increase severity risk
 #   -Weather effects are weaker / less consistent
 # These plots provide interpretable insights compared to the MLP model
+
+
+
+
+
