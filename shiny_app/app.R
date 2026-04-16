@@ -147,7 +147,7 @@ ui <- fluidPage(
              h4("Effect of Weather"),
              plotOutput("bayes_weather", height = "280px"),
              br(),
-             h4("Confusion Matrix — Bayesian Model"),
+             h4("Confusion Matrix: Bayesian Model"),
              p("Balanced dataset: ~335 records per class. Accuracy: 43.6% vs 33% baseline."),
              plotOutput("bayes_cm", height = "320px")
     )
