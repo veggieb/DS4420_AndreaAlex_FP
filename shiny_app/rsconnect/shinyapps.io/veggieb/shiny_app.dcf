@@ -1,0 +1,10 @@
+name: shiny_app
+title:
+username: veggieb
+account: veggieb
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 17155828
+bundleId: 11862427
+url: https://veggieb.shinyapps.io/shiny_app/
+version: 1

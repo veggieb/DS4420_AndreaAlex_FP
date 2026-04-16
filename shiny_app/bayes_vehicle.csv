@@ -1,0 +1,19 @@
+"Largest_Vehicle","Crash_Severity","Weather_Simple","At_Intersection","cond__","cats__","effect1__","effect2__","estimate__","se__","lower__","upper__"
+"Bus","Fatal injury","Clear","0","1","Fatal injury","Bus","Fatal injury",0.478436742436582,0.103729748845334,0.292097035781188,0.680144826230903
+"Heavy Truck","Fatal injury","Clear","0","1","Fatal injury","Heavy Truck","Fatal injury",0.448995316488699,0.0910582185032432,0.277861235540128,0.628215259370654
+"Light Truck/Van","Fatal injury","Clear","0","1","Fatal injury","Light Truck/Van","Fatal injury",0.251768137688203,0.0276792228513409,0.199699964201851,0.309741605253199
+"Medium Truck","Fatal injury","Clear","0","1","Fatal injury","Medium Truck","Fatal injury",0.260014959001664,0.0879326870937193,0.120255700329881,0.454921298200485
+"Motorcycle/Moped","Fatal injury","Clear","0","1","Fatal injury","Motorcycle/Moped","Fatal injury",0.75607150765162,0.0766304210332955,0.587446262305352,0.886045698800376
+"Passenger Car","Fatal injury","Clear","0","1","Fatal injury","Passenger Car","Fatal injury",0.265622336775487,0.028513536877493,0.213822341074994,0.323455012806569
+"Bus","Fatal injury","Clear","0","1","Non-fatal injury","Bus","Non-fatal injury",0.375296851565595,0.101135994269444,0.199747572711771,0.583112971133338
+"Heavy Truck","Fatal injury","Clear","0","1","Non-fatal injury","Heavy Truck","Non-fatal injury",0.236567068881674,0.0806887195325311,0.107083500478201,0.420238862814492
+"Light Truck/Van","Fatal injury","Clear","0","1","Non-fatal injury","Light Truck/Van","Non-fatal injury",0.345641991172707,0.0307468185384568,0.285819394593783,0.40811881637192
+"Medium Truck","Fatal injury","Clear","0","1","Non-fatal injury","Medium Truck","Non-fatal injury",0.235094371455497,0.0853007418586912,0.0993274070001804,0.426885488128364
+"Motorcycle/Moped","Fatal injury","Clear","0","1","Non-fatal injury","Motorcycle/Moped","Non-fatal injury",0.211173225132134,0.0719263081434103,0.0916369004058779,0.376830325063363
+"Passenger Car","Fatal injury","Clear","0","1","Non-fatal injury","Passenger Car","Non-fatal injury",0.362331333835927,0.0309028421157678,0.305009698268493,0.424889057040771
+"Bus","Fatal injury","Clear","0","1","Property damage only (none injured)","Bus","Property damage only (none injured)",0.127370199354538,0.0701082759559113,0.0329401264803154,0.314231135511387
+"Heavy Truck","Fatal injury","Clear","0","1","Property damage only (none injured)","Heavy Truck","Property damage only (none injured)",0.299331525657435,0.0886806583913765,0.147229634631539,0.491832814873694
+"Light Truck/Van","Fatal injury","Clear","0","1","Property damage only (none injured)","Light Truck/Van","Property damage only (none injured)",0.400986270930778,0.032861973550953,0.33809540649233,0.464789297657506
+"Medium Truck","Fatal injury","Clear","0","1","Property damage only (none injured)","Medium Truck","Property damage only (none injured)",0.490501600491742,0.100713684747611,0.297619303384257,0.685095073500878
+"Motorcycle/Moped","Fatal injury","Clear","0","1","Property damage only (none injured)","Motorcycle/Moped","Property damage only (none injured)",0.0213824039384843,0.0227491326276943,0.000679725839471769,0.113540967398107
+"Passenger Car","Fatal injury","Clear","0","1","Property damage only (none injured)","Passenger Car","Property damage only (none injured)",0.369587818995791,0.0313484223684814,0.3108189952717,0.432403220281569

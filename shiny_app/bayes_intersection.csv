@@ -1,0 +1,7 @@
+"At_Intersection","Crash_Severity","Largest_Vehicle","Weather_Simple","cond__","cats__","effect1__","effect2__","estimate__","se__","lower__","upper__"
+"0","Fatal injury","Bus","Clear","1","Fatal injury","0","Fatal injury",0.478436742436582,0.103729748845334,0.292097035781188,0.680144826230903
+"1","Fatal injury","Bus","Clear","1","Fatal injury","1","Fatal injury",0.599612101855896,0.0996216515527336,0.398240692604294,0.774963698835197
+"0","Fatal injury","Bus","Clear","1","Non-fatal injury","0","Non-fatal injury",0.375296851565595,0.101135994269444,0.199747572711771,0.583112971133338
+"1","Fatal injury","Bus","Clear","1","Non-fatal injury","1","Non-fatal injury",0.314496675336816,0.0917662422983853,0.157969594242364,0.515699728436484
+"0","Fatal injury","Bus","Clear","1","Property damage only (none injured)","0","Property damage only (none injured)",0.127370199354538,0.0701082759559113,0.0329401264803154,0.314231135511387
+"1","Fatal injury","Bus","Clear","1","Property damage only (none injured)","1","Property damage only (none injured)",0.0730668758342857,0.0420697725328263,0.0178324828235272,0.20016952183946

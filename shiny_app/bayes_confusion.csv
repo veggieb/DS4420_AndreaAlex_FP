@@ -1,0 +1,10 @@
+"Predicted","Actual","Freq"
+"Fatal injury","Fatal injury",145
+"Non-fatal injury","Fatal injury",17
+"Property damage only (none injured)","Fatal injury",103
+"Fatal injury","Non-fatal injury",98
+"Non-fatal injury","Non-fatal injury",32
+"Property damage only (none injured)","Non-fatal injury",135
+"Fatal injury","Property damage only (none injured)",69
+"Non-fatal injury","Property damage only (none injured)",26
+"Property damage only (none injured)","Property damage only (none injured)",170

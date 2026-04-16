@@ -290,6 +290,12 @@ mean_probs[1, ]
 #   -Weather effects are weaker / less consistent
 # These plots provide interpretable insights compared to the MLP model
 
+# Files for shiny app
+write.csv(ce_v$`Largest_Vehicle:cats__`, "bayes_vehicle.csv", row.names=FALSE)
+write.csv(ce_i$`At_Intersection:cats__`, "bayes_intersection.csv", row.names=FALSE)
+write.csv(ce_w$`Weather_Simple:cats__`,  "bayes_weather.csv", row.names=FALSE)
+write.csv(as.data.frame(table(Predicted=pred_class, Actual=actual)), "bayes_confusion.csv", row.names=FALSE)
+
 
 
 

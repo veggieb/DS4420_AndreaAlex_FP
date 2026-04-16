@@ -1,0 +1,16 @@
+"Weather_Simple","Crash_Severity","Largest_Vehicle","At_Intersection","cond__","cats__","effect1__","effect2__","estimate__","se__","lower__","upper__"
+"Clear","Fatal injury","Bus","0","1","Fatal injury","Clear","Fatal injury",0.478436742436582,0.103729748845334,0.292097035781188,0.680144826230903
+"Cloudy","Fatal injury","Bus","0","1","Fatal injury","Cloudy","Fatal injury",0.469650232685581,0.116678986089573,0.258422014171694,0.697283309880044
+"Rain","Fatal injury","Bus","0","1","Fatal injury","Rain","Fatal injury",0.377022443638617,0.113578949135371,0.184909015043691,0.607697707826678
+"Sleet, hail (freezing rain or drizzle)","Fatal injury","Bus","0","1","Fatal injury","Sleet, hail (freezing rain or drizzle)","Fatal injury",0.948171097046783,0.0602030244873164,0.56255731110003,0.998759382914346
+"Snow","Fatal injury","Bus","0","1","Fatal injury","Snow","Fatal injury",0.613091214983278,0.162096082110494,0.284139367697358,0.86094562716644
+"Clear","Fatal injury","Bus","0","1","Non-fatal injury","Clear","Non-fatal injury",0.375296851565595,0.101135994269444,0.199747572711771,0.583112971133338
+"Cloudy","Fatal injury","Bus","0","1","Non-fatal injury","Cloudy","Non-fatal injury",0.310593317643249,0.103736757639343,0.140742258693753,0.537724922019962
+"Rain","Fatal injury","Bus","0","1","Non-fatal injury","Rain","Non-fatal injury",0.472442741101505,0.12263441444784,0.249424179503284,0.702140217978919
+"Sleet, hail (freezing rain or drizzle)","Fatal injury","Bus","0","1","Non-fatal injury","Sleet, hail (freezing rain or drizzle)","Non-fatal injury",1.02918966801177e-176,1.52587660179425e-176,0,2.57628869997128e-08
+"Snow","Fatal injury","Bus","0","1","Non-fatal injury","Snow","Non-fatal injury",0.264590308375581,0.1398647248061,0.0720163347132735,0.591902333851411
+"Clear","Fatal injury","Bus","0","1","Property damage only (none injured)","Clear","Property damage only (none injured)",0.127370199354538,0.0701082759559113,0.0329401264803154,0.314231135511387
+"Cloudy","Fatal injury","Bus","0","1","Property damage only (none injured)","Cloudy","Property damage only (none injured)",0.193929369066244,0.102511037945013,0.0521250032853228,0.443193148910459
+"Rain","Fatal injury","Bus","0","1","Property damage only (none injured)","Rain","Property damage only (none injured)",0.128416131688506,0.0757378743479166,0.0313762942119523,0.338332289374331
+"Sleet, hail (freezing rain or drizzle)","Fatal injury","Bus","0","1","Property damage only (none injured)","Sleet, hail (freezing rain or drizzle)","Property damage only (none injured)",0.0516291812524704,0.0600734149621619,0.00124061708565389,0.435174967169776
+"Snow","Fatal injury","Bus","0","1","Property damage only (none injured)","Snow","Property damage only (none injured)",0.0922486563096716,0.0699539561726094,0.0150789832025321,0.339107882650177
