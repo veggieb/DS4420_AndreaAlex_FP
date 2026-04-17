@@ -90,7 +90,8 @@ ui <- fluidPage(
              p("Both models identified vehicle type as the strongest predictor of crash severity.
         The Bayesian model further showed that motorcycle crashes carry a disproportionately
         high probability of fatal outcomes (75.6%), and intersection crashes are meaningfully
-        more likely to result in injury.")
+        more likely to result in injury."),
+             a("Access the Massgov crash open data portal here.", href = "https://apps.crashdata.dot.mass.gov/cdp/extract")
     ),
     
     # Tab 2: MLP
